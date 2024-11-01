@@ -34,7 +34,6 @@ private:
         og_msg.header.frame_id = "map_frame";
         og_msg.info.resolution = 1.0;
 
-        // 10 x 10 grid
         og_msg.info.width = 10;
         og_msg.info.height = 10;
 
@@ -47,19 +46,11 @@ private:
         og_msg.info.origin.orientation.w = 1.0;
 
         // Corrected data assignment using a vector initializer
-        og_msg.data.= {100, 0, 0, 0, -1, 0, 0, 0, 100}
+        og_msg.data.assign(100,0);
 
         // Publish the occupancy grid message
         og_pub->publish(og_msg);
     }
-    
-    //colcon build
-    //source /opt/ros/humble/setup.bash
-    //ros2 run navigation occupancy_grid | Another terminal: rviz2 
-    //Note: When you are putting Occupancy Grid on Rviz2, make sure tha the Fixed Frame is the same as frame_id "map_frame". 
-    //Note: When you are putting Occupancy Grid on Rviz2, make sure tha the Fixed Frame is the same as frame_id "map_frame". 
-    //Note: When you are putting Occupancy Grid on Rviz2, make sure tha the Fixed Frame is the same as frame_id "map_frame". 
-    
 
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr og_pub;
     rclcpp::TimerBase::SharedPtr og_timer;
