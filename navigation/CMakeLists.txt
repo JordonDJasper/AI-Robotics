@@ -1,50 +1,45 @@
-cmake_minimum_required(VERSION 3.8)
-project(navigation)
+cmake_minimum_required(VERSION 3.5)
+project(nav2_straightline_planner)
+
+# Default to C99
+set(CMAKE_C_STANDARD 99)
+
+# Default to C++14
+set(CMAKE_CXX_STANDARD 14)
 
 # Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(nav_msgs REQUIRED)
-find_package(nav2_core REQUIRED)
-find_package(pluginlib REQUIRED)
-find_package(tf2_ros REQUIRED)
-find_package(rclcpp_action REQUIRED)
-find_package(rclcpp_lifecycle REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(builtin_interfaces REQUIRED)
 find_package(nav2_costmap_2d REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
-# Add include directories
-include_directories(include)
-
-# Add library for the planner
-add_library(StraightLinePlanner SHARED src/straight_line_planner.cpp)
-
-# Link dependencies to the library
-ament_target_dependencies(StraightLinePlanner
-  rclcpp
-  nav_msgs
-  nav2_core
-  pluginlib
-  tf2_ros
-  rclcpp_action
-  rclcpp_lifecycle
-  geometry_msgs
-  builtin_interfaces
-  nav2_costmap_2d
+# Include directories for your package
+include_directories(
+  include
 )
 
-# # Export the plugin
-# pluginlib_export_plugin_description_file(nav2_core plugins.xml)
+# Add executable target
+add_executable(straight_line_planner_node
+  src/straight_line_planner.cpp
+)
 
-# Install targets
-install(TARGETS StraightLinePlanner
+# Link dependencies to the target
+ament_target_dependencies(straight_line_planner_node
+  rclcpp
+  nav2_costmap_2d
+  geometry_msgs
+  nav_msgs
+)
+
+# Install the executable
+install(TARGETS straight_line_planner_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# Install include files
-install(DIRECTORY include/
-  DESTINATION include/
-)
+# Include the plugin XML if you are using plugins (remove if not using)
+# install(DIRECTORY launch
+#   DESTINATION share/${PROJECT_NAME}
+# )
 
 ament_package()

@@ -1,0 +1,7 @@
+<library path="libnav2_straightline_planner">
+  <class name="nav2_straightline_planner::StraightLine" type="nav2_core::GlobalPlanner" base_class_type="nav2_core::GlobalPlanner">
+    <description>
+      A simple straight line planner for navigation.
+    </description>
+  </class>
+</library>
