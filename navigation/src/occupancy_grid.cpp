@@ -22,10 +22,7 @@ public:
 private:
     void og_callback()
     {
-        // Create a vector with 100 elements, each initialized to 10.0f
-        std::vector<float> range(100, 10.0f);
-
-        // Initialize the occupancy grid message
+        // Initialize occupancy grid message
         auto og_msg = nav_msgs::msg::OccupancyGrid();
 
         // Set the header and metadata
@@ -33,10 +30,11 @@ private:
         og_msg.header.frame_id = "map_frame";
         og_msg.info.resolution = 1.0;
 
-        // 10 x 10 grid
-        og_msg.info.width = 10;
-        og_msg.info.height = 10;
+        // Set grid size (10x10 grid)
+        og_msg.info.width = 100;
+        og_msg.info.height = 100;
 
+        // Set grid origin
         og_msg.info.origin.position.x = 0.0;
         og_msg.info.origin.position.y = 0.0;
         og_msg.info.origin.position.z = 0.0;
@@ -45,20 +43,35 @@ private:
         og_msg.info.origin.orientation.z = 0.0;
         og_msg.info.origin.orientation.w = 1.0;
 
-        // Corrected data assignment using a vector initializer
-        og_msg.data.= {100, 0, 0, 0, -1, 0, 0, 0, 100}
 
-        // Publish the occupancy grid message
-        og_pub->publish(og_msg);
-    }
-    
     //colcon build
     //source /opt/ros/humble/setup.bash
     //ros2 run navigation occupancy_grid | Another terminal: rviz2 
     //Note: When you are putting Occupancy Grid on Rviz2, make sure tha the Fixed Frame is the same as frame_id "map_frame". 
     //Note: When you are putting Occupancy Grid on Rviz2, make sure tha the Fixed Frame is the same as frame_id "map_frame". 
     //Note: When you are putting Occupancy Grid on Rviz2, make sure tha the Fixed Frame is the same as frame_id "map_frame". 
-    
+
+
+        // Ensure the data array has the correct size (width * height)
+        og_msg.data.resize(og_msg.info.width * og_msg.info.height, 0);  // Initialize with 0 (free space)
+
+        // Example: Modify some grid values
+        og_msg.data[0] = 100;
+        og_msg.data[101] = 100;
+        og_msg.data[102] = 100;
+        og_msg.data[103] = 100;   // Set the first cell to occupied (100)
+        og_msg.data[99] = 0;  // Set the last cell to occupied (100)
+
+        // Optionally, you can fill the grid with random values between 0 and 100
+        // for testing purposes, like:
+        // for (size_t i = 0; i < og_msg.data.size(); ++i)
+        // {
+        //     og_msg.data[i] = rand() % 2 == 0 ? 0 : 100;
+        // }
+
+        // Publish the occupancy grid message
+        og_pub->publish(og_msg);
+    }
 
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr og_pub;
     rclcpp::TimerBase::SharedPtr og_timer;
