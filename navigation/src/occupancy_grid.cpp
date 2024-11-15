@@ -15,8 +15,8 @@ public:
     OccupancyGrid_Publisher()
     : Node("OccupancyGrid_Publisher")
     {
-        og_pub = this->create_publisher<nav_msgs::msg::OccupancyGrid>("custom_occupancy_grid", 10);
-        og_timer = this->create_wall_timer(500ms, std::bind(&OccupancyGrid_Publisher::og_callback, this));
+        og_pub = this->create_publisher<nav_msgs::msg::OccupancyGrid>("custom_occupancy_grid", 50);
+        og_timer = this->create_wall_timer(10s, std::bind(&OccupancyGrid_Publisher::og_callback, this));
     }
 
 private:
