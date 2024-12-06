@@ -60,6 +60,11 @@ private:
         og_msg.data[101] = 100;
         og_msg.data[102] = 100;
         og_msg.data[103] = 100;   // Set the first cell to occupied (100)
+        og_msg.data[104] = 100;
+        og_msg.data[201] = 100;
+        og_msg.data[302] = 100;
+        og_msg.data[300] = 100;
+        og_msg.data[202] = 100;
         og_msg.data[99] = 0;  // Set the last cell to occupied (100)
 
         // Optionally, you can fill the grid with random values between 0 and 100
